@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tes.teddy_mid_android.R;
 import com.tes.teddy_mid_android.base.BaseActivity;
@@ -33,6 +34,7 @@ import com.tes.teddy_mid_android.myinterface.ShowImageInterface;
 import com.tes.teddy_mid_android.myinterface.VehiclesInterface;
 import com.tes.teddy_mid_android.network.ShowImageFromAPI;
 import com.tes.teddy_mid_android.network.VehiclesRequest;
+import com.tes.teddy_mid_android.screen.trip.TripHistoryActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +56,8 @@ public class HomeActivity extends BaseActivity implements VehiclesInterface, Sho
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         requestAPI.OnAttachView(this);
+
+
     }
 
 
@@ -71,6 +75,14 @@ public class HomeActivity extends BaseActivity implements VehiclesInterface, Sho
         mGoogleMap = googleMap;
         requestAPI.execute();
 
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Intent intent = new Intent(HomeActivity.this, TripHistoryActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -144,6 +156,8 @@ public class HomeActivity extends BaseActivity implements VehiclesInterface, Sho
     public void showImageSuccess(Bitmap bitmap) {
         View customMarkerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker, null);
         ImageView markerImageView = (ImageView) customMarkerView.findViewById(R.id.markerImage);
+        TextView numberPlate = (TextView) customMarkerView.findViewById(R.id.markerNumberPlate);
+        numberPlate.setText(vehiclesModel.getPlateNumber());
         markerImageView.setImageBitmap(bitmap);
 
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -159,8 +173,8 @@ public class HomeActivity extends BaseActivity implements VehiclesInterface, Sho
         customMarkerView.draw(canvas);
 
         //addMarker
-        mGoogleMap.addMarker(new MarkerOptions().position(location)
-                .title(vehiclesModel.getPlateNumber()).icon(BitmapDescriptorFactory.fromBitmap(returnedBitmap)));
+        mGoogleMap.addMarker(new MarkerOptions().position(location).
+                icon(BitmapDescriptorFactory.fromBitmap(returnedBitmap)));
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
 
     }
