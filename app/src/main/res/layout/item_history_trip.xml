@@ -3,55 +3,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:layout_margin="@dimen/dimens_8dp"
+    android:padding="@dimen/dimens_8dp"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txt_start_trip"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/txt_start_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="@dimen/size_12sp"
+                android:textStyle="normal"
+                tools:text="Buah Batu" />
+
+            <ImageView
+                android:layout_width="@dimen/dimens_18dp"
+                android:layout_height="@dimen/dimens_18dp"
+                android:layout_marginLeft="@dimen/dimens_4dp"
+                android:layout_marginRight="@dimen/dimens_4dp"
+                android:src="@drawable/ic_arrow_" />
+
+            <TextView
+                android:id="@+id/txt_stop_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="@dimen/size_12sp"
+                tools:text="Sukabirus" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Buah Batu" />
+            android:gravity="left|center"
+            android:orientation="horizontal">
 
 
-        <TextView
-            android:id="@+id/txt_stop_trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Sukabirus" />
-
-        <TextView
-            android:id="@+id/txt_time_trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="6.40 PM" />
+            <TextView
+                android:id="@+id/txt_time_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/size_10sp"
+                tools:text="6.40 PM" />
 
 
-        <TextView
-            android:id="@+id/txt_distance_trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Distance 21 KM" />
+            <include layout="@layout/dot_image"
+
+                />
+
+            <TextView
+                android:id="@+id/txt_distance_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_grey"
+                android:textSize="@dimen/size_10sp"
+                android:textStyle="bold"
+                tools:text="Distance 21 KM" />
 
 
-        <TextView
-            android:id="@+id/txt_duration_trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Duration 20 mins" />
+            <include layout="@layout/dot_image"
 
+                />
+
+            <TextView
+                android:id="@+id/txt_duration_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_grey"
+                android:textSize="@dimen/size_10sp"
+                android:textStyle="bold"
+                tools:text="Duration 20 mins" />
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/txt_score_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Score 100" />
-
+            android:background="@drawable/rounded_layout_blue"
+            android:padding="@dimen/dimens_4dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/size_12sp"
+            tools:text="100" />
 
     </LinearLayout>
+
 
 </LinearLayout>

@@ -73,6 +73,7 @@ public class HomeActivity extends BaseActivity implements VehiclesInterface, Sho
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         requestAPI.execute();
 
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -175,7 +176,7 @@ public class HomeActivity extends BaseActivity implements VehiclesInterface, Sho
         //addMarker
         mGoogleMap.addMarker(new MarkerOptions().position(location).
                 icon(BitmapDescriptorFactory.fromBitmap(returnedBitmap)));
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 20));
 
     }
 }

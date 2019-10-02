@@ -1,11 +1,15 @@
 package com.tes.teddy_mid_android.screen.trip;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.tes.teddy_mid_android.R;
 import com.tes.teddy_mid_android.base.BaseActivity;
@@ -19,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TripHistoryActivity extends BaseActivity {
 
@@ -51,6 +56,8 @@ public class TripHistoryActivity extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         recTrip.setLayoutManager(layoutManager);
         recTrip.setAdapter(tripAdapter);
+        recTrip.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
 
     }
 
@@ -84,8 +91,10 @@ public class TripHistoryActivity extends BaseActivity {
                     double latStart = jobjStart.getDouble("latitude");
                     double lngStart = jobjStart.getDouble("longitude");
                     String trackedAt = jobjStart.getString("tracked_at");
+                    String cityNameStart = getCityNameFromLocation(latStart, lngStart);
 
-                    TripsModel.Start startTrip = tripsModel.new Start(latStart, lngStart, trackedAt);
+
+                    TripsModel.Start startTrip = tripsModel.new Start(latStart, lngStart, cityNameStart, trackedAt);
 
                     //stop
                     String end = jArrayTrip.getJSONObject(i).getString("end");
@@ -93,8 +102,10 @@ public class TripHistoryActivity extends BaseActivity {
                     double latEnd = jobjEnd.getDouble("latitude");
                     double lngEnd = jobjEnd.getDouble("longitude");
 
-                    TripsModel.End endTrip = tripsModel.new End(latEnd, lngEnd);
+                    String cityNameEnd = getCityNameFromLocation(latEnd, lngEnd);
+                    TripsModel.End endTrip = tripsModel.new End(latEnd, lngEnd, cityNameEnd);
 
+                    getCityNameFromLocation(latStart, lngStart);
 
                     tripsModel.setStart(startTrip);
                     tripsModel.setStop(endTrip);
@@ -109,6 +120,22 @@ public class TripHistoryActivity extends BaseActivity {
             }
 
         }
+    }
+
+    private String getCityNameFromLocation(double lat, double lng) {
+
+        String cityName = "";
+        try {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            String address = addresses.get(0).getAddressLine(0);
+            String[] arrAddress = address.split(",");
+            cityName  = arrAddress[1];
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return cityName;
     }
 
     public String readJSONFromAsset() {

@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tes.teddy_mid_android.R;
 import com.tes.teddy_mid_android.model.TripsModel;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
 
@@ -63,13 +65,17 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
 
         void bindItem(TripsModel trip) {
 
-            startTrip.setText(trip.getStart().getLat() + "");
-            stopTrip.setText(trip.getStart().getLat() + "");
-            timeTrip.setText(trip.getStart().getTracked_at());
-            distanceTrip.setText(trip.getDistance() + "");
-            durationTrip.setText(trip.getDuration() + "");
-            scoreTrip.setText(trip.getScore() + "");
+            double distanceKM = trip.getDistance() / 1000;
+            long minutes = trip.getDuration() / 60;
+            String time = trip.getStart().getTracked_at().substring(10);
 
+
+            startTrip.setText(trip.getStart().getCityName());
+            stopTrip.setText(trip.getStop().getCityName());
+            timeTrip.setText(time);
+            distanceTrip.setText("Distance " + distanceKM + " Km");
+            durationTrip.setText("Duration " + minutes + " Mins");
+            scoreTrip.setText(trip.getScore() + "");
 
         }
 

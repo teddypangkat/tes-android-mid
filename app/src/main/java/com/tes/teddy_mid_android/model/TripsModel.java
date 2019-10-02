@@ -78,17 +78,25 @@ public class TripsModel {
 
     public class Start {
         public double lat;
-
-        public Start(double lat, double lng, String tracked_at) {
-            this.lat = lat;
-            this.lng = lng;
-            this.tracked_at = tracked_at;
-        }
-
         public double lng;
+        public String cityName;
         public String tracked_at;
 
 
+        public Start(double lat, double lng, String cityName, String tracked_at) {
+            this.lat = lat;
+            this.lng = lng;
+            this.cityName = cityName;
+            this.tracked_at = tracked_at;
+        }
+
+        public String getCityName() {
+            return cityName;
+        }
+
+        public void setCityName(String cityName) {
+            this.cityName = cityName;
+        }
 
         public double getLat() {
             return lat;
@@ -119,10 +127,24 @@ public class TripsModel {
     public class End {
         public double lat;
         public double lng;
+        public String cityName;
 
-        public End(double lat, double lng) {
+        public End(double lat, double lng, String cityName) {
             this.lat = lat;
             this.lng = lng;
+            this.cityName = cityName;
+        }
+
+        public End(double lat) {
+            this.lat = lat;
+        }
+
+        public String getCityName() {
+            return cityName;
+        }
+
+        public void setCityName(String cityName) {
+            this.cityName = cityName;
         }
 
         public double getLat() {
