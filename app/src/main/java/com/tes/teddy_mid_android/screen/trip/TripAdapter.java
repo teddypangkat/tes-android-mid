@@ -3,6 +3,7 @@ package com.tes.teddy_mid_android.screen.trip;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,16 @@ import java.util.concurrent.TimeUnit;
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
 
     private List<TripsModel> tripList;
+    private ClickItemListener clickItemListener;
 
-    public TripAdapter(List<TripsModel> tripList) {
+    public TripAdapter(List<TripsModel> tripList, ClickItemListener clickItemListener) {
         this.tripList = tripList;
+        this.clickItemListener = clickItemListener;
+    }
+
+
+    interface ClickItemListener {
+        void onItemClick(TripsModel data);
     }
 
     @NonNull
@@ -51,6 +59,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
         TextView distanceTrip;
         TextView durationTrip;
         TextView scoreTrip;
+        LinearLayout root;
 
         public TripHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,9 +70,12 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             distanceTrip = (TextView) itemView.findViewById(R.id.txt_distance_trip);
             durationTrip = (TextView) itemView.findViewById(R.id.txt_duration_trip);
             scoreTrip = (TextView) itemView.findViewById(R.id.txt_score_trip);
+            root = (LinearLayout) itemView.findViewById(R.id.root_view);
+
+
         }
 
-        void bindItem(TripsModel trip) {
+        void bindItem(final TripsModel trip) {
 
             double distanceKM = trip.getDistance() / 1000;
             long minutes = trip.getDuration() / 60;
@@ -76,6 +88,13 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             distanceTrip.setText("Distance " + distanceKM + " Km");
             durationTrip.setText("Duration " + minutes + " Mins");
             scoreTrip.setText(trip.getScore() + "");
+
+            root.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickItemListener.onItemClick(trip);
+                }
+            });
 
         }
 

@@ -32,9 +32,11 @@
 
     </LinearLayout>
 
+
     <ImageView
         android:id="@+id/markerImage"
         android:layout_width="@dimen/dimens_48dp"
         android:layout_height="@dimen/dimens_48dp"
         tools:src="@color/colorPrimary" />
+
 </RelativeLayout>

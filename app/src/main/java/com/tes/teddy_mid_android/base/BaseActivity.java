@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -50,12 +51,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getLayoutId();
 
 
-//    public void setupToolbar() {
-//        mToolbar = findViewById(R.id.toolbar);
-//        if (mToolbar != null) {
-//            setSupportActionBar(mToolbar);
-//        }
-//    }
+    public void setupActionBar(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(title);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+    }
 
     protected void showBackArrow() {
         ActionBar supportActionBar = getSupportActionBar();
@@ -100,5 +103,19 @@ public abstract class BaseActivity extends AppCompatActivity {
             // progressDialog.hide();会导致android.view.WindowLeaked
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+
+
+        } else {
+            super.onOptionsItemSelected(item);
+        }
+
+        return false;
     }
 }

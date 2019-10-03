@@ -10,6 +10,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.tes.teddy_mid_android.R;
 import com.tes.teddy_mid_android.base.BaseActivity;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class TripHistoryActivity extends BaseActivity {
+public class TripHistoryActivity extends BaseActivity implements TripAdapter.ClickItemListener {
 
     private RecyclerView recTrip;
     private TripAdapter tripAdapter;
@@ -36,6 +37,7 @@ public class TripHistoryActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
+        setupActionBar("Trip History");
         recTrip = (RecyclerView) findViewById(R.id.trip_list);
     }
 
@@ -52,7 +54,7 @@ public class TripHistoryActivity extends BaseActivity {
     }
 
     void iniadapter() {
-        tripAdapter = new TripAdapter(arrTrips);
+        tripAdapter = new TripAdapter(arrTrips, this);
         layoutManager = new LinearLayoutManager(this);
         recTrip.setLayoutManager(layoutManager);
         recTrip.setAdapter(tripAdapter);
@@ -94,6 +96,23 @@ public class TripHistoryActivity extends BaseActivity {
                     String cityNameStart = getCityNameFromLocation(latStart, lngStart);
 
 
+                    String histories = jArrayTrip.getJSONObject(i).getString("histories");
+                    JSONArray jArrayHistories = new JSONArray(histories);
+
+                    List<TripsModel.Histories> arrHistories = new ArrayList<>();
+
+                    for (int j = 0; j < jArrayHistories.length(); j++) {
+
+                        TripsModel.Histories historiesClass = tripsModel.new Histories(
+                                jArrayHistories.getJSONObject(j).getDouble("latitude"),
+                                jArrayHistories.getJSONObject(j).getDouble("longitude")
+                        );
+
+                        arrHistories.add(historiesClass);
+
+                    }
+
+
                     TripsModel.Start startTrip = tripsModel.new Start(latStart, lngStart, cityNameStart, trackedAt);
 
                     //stop
@@ -107,6 +126,7 @@ public class TripHistoryActivity extends BaseActivity {
 
                     getCityNameFromLocation(latStart, lngStart);
 
+                    tripsModel.setHistories(arrHistories);
                     tripsModel.setStart(startTrip);
                     tripsModel.setStop(endTrip);
 
@@ -130,7 +150,7 @@ public class TripHistoryActivity extends BaseActivity {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             String address = addresses.get(0).getAddressLine(0);
             String[] arrAddress = address.split(",");
-            cityName  = arrAddress[1];
+            cityName = arrAddress[1];
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,4 +178,13 @@ public class TripHistoryActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_trip_history;
     }
+
+    @Override
+    public void onItemClick(TripsModel data) {
+        Intent intent = new Intent(this, DirectionTrip.class);
+        intent.putExtra(DirectionTrip.KEY_TRIP, data);
+        startActivity(intent);
+    }
+
+
 }

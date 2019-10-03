@@ -42,7 +42,7 @@ import org.json.JSONObject;
 
 public class HomeActivity extends BaseActivity implements VehiclesInterface, ShowImageInterface, OnMapReadyCallback {
 
-    TextView response;
+
     private VehiclesRequest requestAPI = new VehiclesRequest();
     private VehiclesModel vehiclesModel = new VehiclesModel();
 
@@ -52,6 +52,7 @@ public class HomeActivity extends BaseActivity implements VehiclesInterface, Sho
     @Override
     public void initView() {
         super.initView();
+        setupActionBar("Home");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

@@ -1,9 +1,13 @@
 package com.tes.teddy_mid_android.model;
 
-public class TripsModel {
+import java.io.Serializable;
+import java.util.List;
+
+public class TripsModel implements Serializable{
 
     public Start start;
     public End stop;
+    public List<Histories> histories;
     public int distance;
     public int duration;
     public double maxSpeed;
@@ -75,8 +79,35 @@ public class TripsModel {
         this.score = score;
     }
 
+    public List<Histories> getHistories() {
+        return histories;
+    }
 
-    public class Start {
+    public void setHistories(List<Histories> histories) {
+        this.histories = histories;
+    }
+
+    public class Histories implements Serializable {
+        public double lat;
+        public double lng;
+
+
+        public Histories(double lat, double lng) {
+            this.lat = lat;
+            this.lng = lng;
+        }
+
+        public double getLat() {
+            return lat;
+        }
+
+        public double getLng() {
+            return lng;
+        }
+    }
+
+
+    public class Start implements Serializable{
         public double lat;
         public double lng;
         public String cityName;
@@ -124,7 +155,7 @@ public class TripsModel {
     }
 
 
-    public class End {
+    public class End implements Serializable{
         public double lat;
         public double lng;
         public String cityName;
