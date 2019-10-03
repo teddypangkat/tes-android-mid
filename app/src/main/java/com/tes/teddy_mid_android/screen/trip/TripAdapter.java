@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tes.teddy_mid_android.R;
 import com.tes.teddy_mid_android.model.TripsModel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -82,11 +85,28 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripHolder> {
             String time = trip.getStart().getTracked_at().substring(10);
 
 
+            String input = time;
+            //Date/time pattern of input date
+            DateFormat df = new SimpleDateFormat("HH:mm:ss");
+            //Date/time pattern of desired output date
+            DateFormat outputformat = new SimpleDateFormat(" hh:mm aa");
+            Date date = null;
+            String output = null;
+            try{
+                //Conversion of input String to date
+                date= df.parse(input);
+                //old date format to new date format
+                output = outputformat.format(date);
+            }catch(ParseException pe){
+                pe.printStackTrace();
+            }
+
+
             startTrip.setText(trip.getStart().getCityName());
             stopTrip.setText(trip.getStop().getCityName());
-            timeTrip.setText(time);
-            distanceTrip.setText("Distance " + distanceKM + " Km");
-            durationTrip.setText("Duration " + minutes + " Mins");
+            timeTrip.setText(output);
+            distanceTrip.setText(distanceKM + " Km");
+            durationTrip.setText(minutes + " Mins");
             scoreTrip.setText(trip.getScore() + "");
 
             root.setOnClickListener(new View.OnClickListener() {
